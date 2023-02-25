@@ -1,13 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background1-start-rgb: 214, 219, 220;
+  --background1-end-rgb: 255, 255, 255;
+  --background2-start-rgb: 240, 65, 74;
+  --background2-end-rgb: 255, 255, 255;
 
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
@@ -90,9 +96,12 @@ body {
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background1-start-rgb))
+    ),
+    linear-gradient(to bottom, transparent, rgb(var(--background2-start-rgb)));
+  background-size: 50% 100%;
+  background-position: left, right;
+  background-repeat: no-repeat;
 }
 
 a {
@@ -104,4 +113,42 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* Spinner */
+@keyframes animation-bounce {
+  0%,
+  100% {
+    transform: translateY(-0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner > div {
+  width: 3px;
+  height: 3px;
+  margin: 1px;
+  border-radius: 100%;
+}
+
+.delay-1s {
+  animation: animation-bounce 1s ease-in-out infinite;
+}
+
+.delay-2s {
+  animation: animation-bounce 1s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+.delay-3s {
+  animation: animation-bounce 1s ease-in-out infinite;
+  animation-delay: 0.6s;
 }
