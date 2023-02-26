@@ -18,7 +18,7 @@ export default function PokedexEntry({ pokedex }) {
 
   if (!pokedex) return;
 
-  console.log(pokedex);
+  //console.log(pokedex);
 
   const [pokedexDescription] = pokedex ? pokedex.flavor_text_entries : [];
 

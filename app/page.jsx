@@ -19,19 +19,30 @@ export default function Page() {
   const fetchPokemon = async (id) => {
     try {
       console.log("id", id);
-      const { pokemon: poketMonsterData, id: newID } = await fetchData(
-        id,
-        "get"
-      );
-      console.log("newID", newID);
-      const evolutionChainData = await fetchData(newID, "evolutionChain");
-      const pokedexData = await fetchData(newID, "pokedex");
 
-      const poketMonster = { ...poketMonsterData };
-      const evolutionChain = { ...evolutionChainData };
-      const pokedex = { ...pokedexData };
+      let response = await fetchData(id, "get");
+      let data = response.success ? response.data : null;
 
-      return { poketMonster, evolutionChain, pokedex };
+      if (data) {
+        const { pokemon: poketMonsterData, id: newID } = data;
+
+        console.log("newID", newID);
+
+        response = await fetchData(newID, "evolutionChain");
+        data = response.success ? response.data : null;
+        const { chain: evolutionChainData } = data;
+
+        response = await fetchData(newID, "pokedex");
+        const pokedexData = response.success ? response.data : null;
+
+        const poketMonster = { ...poketMonsterData };
+        const evolutionChain = { ...evolutionChainData };
+        const pokedex = { ...pokedexData };
+
+        return { poketMonster, evolutionChain, pokedex };
+      }
+
+      return null;
     } catch (error) {
       console.log(error);
       return null;
@@ -48,6 +59,8 @@ export default function Page() {
       const rnd = getRandomNumber();
       const pokemonData = await fetchPokemon(rnd);
 
+      //@todo: if not pokemon, then it will take time to load the next one.
+      //Show a message for the user saying the fetch is taking longer than expected, please be patient
       pokemonData && setPokemon(pokemonData);
     }, 6000);
 

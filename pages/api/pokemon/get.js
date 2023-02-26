@@ -22,13 +22,18 @@ export default async function get(req, res) {
     pokemonConfirmed = await confirmPokemonImage(id);
   }
 
-  const poketMonsterResponse = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${id}`
-  );
+  try {
+    const poketMonsterResponse = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${id}`
+    );
 
-  const poketMonster = await poketMonsterResponse.json();
-  const pokemon = { ...poketMonster };
+    const poketMonster = await poketMonsterResponse.json();
+    const pokemon = { ...poketMonster };
 
-  res.status(200).json({ pokemon, id });
-  //@todo: add error handling as in vetdesk
+    res.status(200).json({ success: true, data: { pokemon, id } });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, data: null, message: error.message });
+  }
 }
